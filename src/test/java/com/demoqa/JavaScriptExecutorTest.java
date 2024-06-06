@@ -8,6 +8,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 
 import java.time.Duration;
 
@@ -31,6 +33,16 @@ public class JavaScriptExecutorTest {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView(true)", bookStoreApplicationCard);
         bookStoreApplicationCard.click();
+    }
+
+    @Test
+    void scrollToBookStoreApplicationViaActions() {
+        WebElement bookStoreApplicationCard = driver.findElement(BOOK_STORE_APPLICATION_CARD);
+        new Actions(driver)
+                .scrollToElement(bookStoreApplicationCard)
+                .pause(Duration.ofSeconds(2))
+                .click()
+                .perform();
     }
 
     @Test
