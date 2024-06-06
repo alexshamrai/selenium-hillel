@@ -10,6 +10,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.time.Duration;
 
+import static com.demoqa.ConfigFileReader.getBaseUrl;
+import static com.demoqa.ConfigFileReader.getProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -85,7 +87,10 @@ public class DemoQaTest {
     @BeforeEach
     void setup() {
         driver = new ChromeDriver();
-        driver.get("https://demoqa.com/");
+//        driver.get(getBaseUrl());
+//        driver.get(getProperty("base.url"));
+        var configFileReader = new NonStaticConfigFileReader();
+        driver.get(configFileReader.getBaseUrl());
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
     }
 
