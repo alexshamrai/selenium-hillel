@@ -1,30 +1,22 @@
 package com.demoqa;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 
 import java.time.Duration;
 
-public class JavaScriptExecutorTest {
+public class JavaScriptExecutorTest extends BaseTest {
 
     private static final By BOOK_STORE_APPLICATION_CARD = By.xpath("//div[@class='card-body']/h5[text()='Book Store Application']");
     private static final By FORMS_CARD = By.xpath("//div[@class='card-body']/h5[text()='Forms']");
 
-    WebDriver driver;
-
     @BeforeEach
-    void setup() {
-        driver = new ChromeDriver();
-        driver.get("https://demoqa.com");
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+    void precondition() {
+        driver.get(appProperties.getBaseUrl());
     }
 
     @Test
@@ -62,7 +54,6 @@ public class JavaScriptExecutorTest {
                 "cancelable: true" +
                 "}); arguments[0].dispatchEvent(event);";
         js.executeScript(mouseOverScript, formsCard);
-        System.out.println("");
     }
 
     @Test
@@ -70,11 +61,5 @@ public class JavaScriptExecutorTest {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         String url = "https://www.selenium.dev/";
         js.executeScript("window.open('" + url + "', '_blank');");
-        System.out.println("");
-    }
-
-    @AfterEach
-    void tearDown() {
-        driver.quit();
     }
 }

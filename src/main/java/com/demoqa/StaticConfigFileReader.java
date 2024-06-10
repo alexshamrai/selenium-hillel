@@ -5,21 +5,22 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-public class NonStaticConfigFileReader {
+public class StaticConfigFileReader {
 
-    private static final String PROPERTY_FILE_PATH = "src/main/resources/application.properties";
-    private Properties properties;
+    private static String propertyFilePath;
+    private static Properties properties;
 
-    public NonStaticConfigFileReader() {
+    static {
+        propertyFilePath = "src/main/resources/application.properties";
         properties = new Properties();
-        try (BufferedReader reader = new BufferedReader(new FileReader(PROPERTY_FILE_PATH))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(propertyFilePath))) {
             properties.load(reader);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private String getProperty(String propertyKey) {
+    public static String getProperty(String propertyKey) {
         var propertyValue = properties.getProperty(propertyKey);
         if (propertyValue != null) {
             return propertyValue;
@@ -27,7 +28,7 @@ public class NonStaticConfigFileReader {
         throw new RuntimeException(propertyKey + " is not found");
     }
 
-    public String getBaseUrl() {
+    public static String getBaseUrl() {
         return getProperty("base.url");
     }
 }

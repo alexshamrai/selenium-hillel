@@ -1,30 +1,18 @@
 package com.demoqa;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 
-import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DragAndDropTest {
-
-    WebDriver driver;
-
-    @BeforeEach
-    void setup() {
-        driver = new ChromeDriver();
-        driver.get("https://demoqa.com/droppable");
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
-    }
+public class DragAndDropTest extends BaseTest {
 
     @Test
     void testDragAndDrop() {
+        driver.get(appProperties.getBaseUrl() + "/droppable");
+
         var source = driver.findElement(By.id("draggable"));
         var target = driver.findElement(By.id("droppable"));
 
@@ -37,8 +25,4 @@ public class DragAndDropTest {
         assertEquals(actualMessage, "Dropped!");
     }
 
-    @AfterEach
-    void cleanup() {
-        driver.quit();
-    }
 }
