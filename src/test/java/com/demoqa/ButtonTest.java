@@ -1,31 +1,23 @@
 package com.demoqa;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ButtonTest {
-
-    WebDriver driver;
+public class ButtonTest extends BaseTest {
 
     private static final By CLICK_ME_BUTTON = By.xpath("//button[text()='Click Me']");
     private static final By MESSAGE = By.id("dynamicClickMessage");
     private static final String EXPECTED_MESSAGE = "You have done a dynamic click";
 
-
     @BeforeEach
-    void setup() {
-        driver = new ChromeDriver();
-        driver.get("https://demoqa.com/buttons");
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+    void precondition() {
+        driver.get(appProperties.getBaseUrl() + "/buttons");
     }
 
     @Test
@@ -66,10 +58,5 @@ public class ButtonTest {
         var message = driver.findElement(By.id("rightClickMessage"));
         var actualMessage = message.getText();
         assertEquals("You have done a right click", actualMessage);
-    }
-
-    @AfterEach
-    void cleanup() {
-        driver.quit();
     }
 }

@@ -7,20 +7,19 @@ import java.util.Properties;
 
 public class ConfigFileReader {
 
-    private static String propertyFilePath;
-    private static Properties properties;
+    private static final String PROPERTY_FILE_PATH = "src/main/resources/application.properties";
+    private Properties properties;
 
-    static {
-        propertyFilePath = "src/main/resources/application.properties";
+    public ConfigFileReader() {
         properties = new Properties();
-        try (BufferedReader reader = new BufferedReader(new FileReader(propertyFilePath))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(PROPERTY_FILE_PATH))) {
             properties.load(reader);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static String getProperty(String propertyKey) {
+    private String getProperty(String propertyKey) {
         var propertyValue = properties.getProperty(propertyKey);
         if (propertyValue != null) {
             return propertyValue;
@@ -28,7 +27,7 @@ public class ConfigFileReader {
         throw new RuntimeException(propertyKey + " is not found");
     }
 
-    public static String getBaseUrl() {
+    public String getBaseUrl() {
         return getProperty("base.url");
     }
 }

@@ -1,21 +1,14 @@
 package com.demoqa;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.time.Duration;
-
-import static com.demoqa.ConfigFileReader.getBaseUrl;
-import static com.demoqa.ConfigFileReader.getProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DemoQaTest {
+public class DemoQaTest extends BaseTest{
 
     private static final By ELEMENTS_CARD = By.xpath("//div[@class='card-body']/h5[text()='Elements']");
     private static final By BUTTONS_MENU_ITEM = By.id("item-4");
@@ -34,7 +27,10 @@ public class DemoQaTest {
     private static final String EMAIL = "charile@gmail.com";
     private static final String ADDRESS = "New York, 45 Avenue";
 
-    WebDriver driver;
+    @BeforeEach
+    void precondition() {
+        driver.get(appProperties.getBaseUrl());
+    }
 
     @Test
     void testButtonClick() {
@@ -82,20 +78,5 @@ public class DemoQaTest {
         WebElement submittedName = driver.findElement(SUBMITTED_NAME);
         String actualSubmittedNameValue = submittedName.getText();
         assertTrue(actualSubmittedNameValue.contains(FULL_NAME));
-    }
-
-    @BeforeEach
-    void setup() {
-        driver = new ChromeDriver();
-//        driver.get(getBaseUrl());
-//        driver.get(getProperty("base.url"));
-        var configFileReader = new NonStaticConfigFileReader();
-        driver.get(configFileReader.getBaseUrl());
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
-    }
-
-    @AfterEach
-    void cleanup() {
-        driver.quit();
     }
 }

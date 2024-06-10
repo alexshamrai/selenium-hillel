@@ -1,29 +1,15 @@
 package com.demoqa;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-
-import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class IframeTest {
-
-    WebDriver driver;
-
-    @BeforeEach
-    void setup() {
-        driver = new ChromeDriver();
-        driver.get("https://demoqa.com/frames");
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
-    }
+public class IframeTest extends BaseTest {
 
     @Test
     void testIFrameContent() {
+        driver.get(appProperties.getBaseUrl() + "/frames");
         var iFrame = driver.findElement(By.id("frame1"));
         driver.switchTo().frame(iFrame);
 
@@ -36,8 +22,4 @@ public class IframeTest {
         framePageHeader.isDisplayed();
     }
 
-    @AfterEach
-    void cleanup() {
-        driver.quit();
-    }
 }
