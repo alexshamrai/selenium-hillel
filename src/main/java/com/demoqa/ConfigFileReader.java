@@ -8,14 +8,30 @@ import java.util.Properties;
 public class ConfigFileReader {
 
     private static final String PROPERTY_FILE_PATH = "src/main/resources/application.properties";
+
+    private static volatile ConfigFileReader instance;
+
     private Properties properties;
 
-    public ConfigFileReader() {
+    private ConfigFileReader() {
         properties = new Properties();
         try (BufferedReader reader = new BufferedReader(new FileReader(PROPERTY_FILE_PATH))) {
             properties.load(reader);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static ConfigFileReader getConfigFileReader() {
+        ConfigFileReader result = instance;
+        if (result != null) {
+            return result;
+        }
+        synchronized(ConfigFileReader.class) {
+            if (instance == null) {
+                instance = new ConfigFileReader();
+            }
+            return instance;
         }
     }
 

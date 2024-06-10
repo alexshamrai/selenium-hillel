@@ -7,9 +7,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.time.Duration;
 
+import static com.demoqa.ConfigFileReader.getConfigFileReader;
+
 public abstract class BaseTest {
 
-    ConfigFileReader appProperties = new ConfigFileReader();
+    ConfigFileReader appProperties = getConfigFileReader();
     WebDriver driver;
 
     @BeforeEach
